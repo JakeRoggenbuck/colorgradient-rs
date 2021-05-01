@@ -28,6 +28,20 @@ macro_rules! vec_to_rgb {
     };
 }
 
+#[macro_export]
+macro_rules! format_rgb {
+    ($x: expr) => {
+        format!("rgb({}, {}, {})", $x.r, $x.g, $x.b);
+    };
+}
+
+#[macro_export]
+macro_rules! color_bar {
+    ($x: expr) => {
+        format!("<div style=\"background-color: rgb({}, {}, {});\">COLOR</div>", $x.r, $x.g, $x.b);
+    };
+}
+
 fn get_channels(colors: Vec<RGB>) -> Channels {
     // Take a vector of RBG structures and pull the individual colors out and put them in their
     // respective vector in the channels
@@ -85,8 +99,7 @@ fn find_y(x: f32, known_x: &Vec<i8>) -> f32 {
     }
 }
 
-fn calculate_gradient(original_colors: Vec<RGB>) -> Vec<RGB> {
-    let num = 100;
+fn calculate_gradient(num: i64, original_colors: Vec<RGB>) -> Vec<RGB> {
     // Get the needed step value to fit the num of iterations in the original_colors length
     let step: f32 = (original_colors.len() as f32 - 1.0) / num as f32;
     let channels = get_channels(original_colors);
@@ -99,7 +112,7 @@ fn calculate_gradient(original_colors: Vec<RGB>) -> Vec<RGB> {
         // Get each channel as a reference, use it as the known x values
         for channel in [&channels.red, &channels.green, &channels.blue].iter() {
             // Add the y values found from the x value to the color
-            color.push(find_y(x as f32, channel));
+            color.push(find_y(x as f32, channel).abs());
         }
         // Change the vector of colors to RGB structure, and add it to all the colors
         colors.push(vec_to_rgb!(color));
@@ -109,15 +122,15 @@ fn calculate_gradient(original_colors: Vec<RGB>) -> Vec<RGB> {
 
 fn main() {
     let original_colors = vec![
-        vec_to_rgb![vec![12, 16, 24]],
-        vec_to_rgb![vec![15, 19, 24]],
-        vec_to_rgb![vec![42, 14, 44]],
+        vec_to_rgb![vec![175, 122, 197]],
+        vec_to_rgb![vec![40, 116, 166]],
     ];
 
-    let colors = calculate_gradient(original_colors);
+    let num = 40;
+    let colors = calculate_gradient(num, original_colors);
 
     for rgb in colors.iter() {
-        println!("{:?}", rgb);
+        println!("{}", color_bar!(rgb));
     }
 }
 
