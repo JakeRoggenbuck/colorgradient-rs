@@ -85,13 +85,7 @@ fn find_y(x: f32, known_x: &Vec<i8>) -> f32 {
     }
 }
 
-fn main() {
-    let original_colors = vec![
-        vec_to_rgb![vec![12, 16, 24]],
-        vec_to_rgb![vec![15, 19, 24]],
-        vec_to_rgb![vec![42, 14, 44]],
-    ];
-
+fn calculate_gradient(original_colors: Vec<RGB>) -> Vec<RGB> {
     let num = 100;
     // Get the needed step value to fit the num of iterations in the original_colors length
     let step: f32 = (original_colors.len() as f32 - 1.0) / num as f32;
@@ -110,6 +104,17 @@ fn main() {
         // Change the vector of colors to RGB structure, and add it to all the colors
         colors.push(vec_to_rgb!(color));
     }
+    return colors;
+}
+
+fn main() {
+    let original_colors = vec![
+        vec_to_rgb![vec![12, 16, 24]],
+        vec_to_rgb![vec![15, 19, 24]],
+        vec_to_rgb![vec![42, 14, 44]],
+    ];
+
+    let colors = calculate_gradient(original_colors);
 
     for rgb in colors.iter() {
         println!("{:?}", rgb);
