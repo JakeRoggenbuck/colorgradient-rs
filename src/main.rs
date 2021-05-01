@@ -39,11 +39,27 @@ fn closest_whole_numbers(x: f32) -> (f32, f32) {
     return (x.floor(), x.ceil());
 }
 
-fn find_y(x: f32, known_x: &Vec<f32>) -> bool {
+fn find_y(x: f32, known_x: &Vec<f32>) -> f32 {
     if x.fract() == 0.0 {
-        return true;
+        let index = x as usize;
+        return known_x[index];
     } else {
-        return false;
+        let (left_x, right_x) = closest_whole_numbers(x);
+
+        let left_y = known_x[left_x as usize];
+        let right_y = known_x[right_x as usize];
+
+        let slope: f32 = find_slope(
+            Point {
+                x: left_x,
+                y: left_y,
+            },
+            Point {
+                x: right_x,
+                y: right_y,
+            },
+        );
+        return left_y + (slope * (x - left_x));
     }
 }
 
@@ -108,12 +124,13 @@ mod tests {
 
     #[test]
     fn find_y_test() {
-        let known_x = Vec::new();
-        assert!(find_y(1.0, &known_x) == true);   
-        assert!(find_y(2.0, &known_x) == true);   
-        assert!(find_y(3.0, &known_x) == true);
-        assert!(find_y(5.6, &known_x) == false);   
-        assert!(find_y(9.6, &known_x) == false);   
-        assert!(find_y(4.4, &known_x) == false);   
+        let known_x = vec![12.0, 23.0, 30.0, 49.0, 53.0, 54.0, 41.0, 32.0, 29.0];
+
+        assert_eq!(find_y(0.0, &known_x), 12.0);
+        assert_eq!(find_y(1.4, &known_x), 25.8);
+        assert_eq!(find_y(2.0, &known_x), 30.0);
+        assert_eq!(find_y(2.2, &known_x), 33.8);
+        assert_eq!(find_y(3.0, &known_x), 49.0);
+        assert_eq!(find_y(3.8, &known_x), 52.2);
     }
 }
