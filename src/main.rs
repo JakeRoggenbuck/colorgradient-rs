@@ -1,3 +1,6 @@
+use std::io::{stdin, stdout, Write};
+use std::process;
+
 #[derive(Debug)]
 struct RGB {
     r: i8,
@@ -38,7 +41,10 @@ macro_rules! format_rgb {
 #[macro_export]
 macro_rules! color_bar {
     ($x: expr) => {
-        format!("<div style=\"background-color: rgb({}, {}, {});\">COLOR</div>", $x.r, $x.g, $x.b);
+        format!(
+            "<div style=\"background-color: rgb({}, {}, {});\">COLOR</div>",
+            $x.r, $x.g, $x.b
+        );
     };
 }
 
@@ -120,11 +126,47 @@ fn calculate_gradient(num: i64, original_colors: Vec<RGB>) -> Vec<RGB> {
     return colors;
 }
 
+fn get_color() -> Result<Vec<i32>, i8> {
+    let mut line = String::new();
+    print!("Enter a color as 'r g b': ");
+    stdout().flush();
+    stdin().read_line(&mut line).unwrap();
+
+    let mut colors = Vec::<i32>::new();
+    let mut current_color = String::new();
+
+    if line.len() == 0 {
+        return Err(0);
+    }
+    for x in line.chars() {
+        if x == '"' || x == '\'' {
+            continue;
+        }
+        if x == ' ' || x == '\n' {
+            if current_color.len() >= 1 && current_color != " " {
+                colors.push(current_color.parse::<i32>().unwrap());
+            }
+            current_color = String::new();
+        } else {
+            current_color.push(x);
+        }
+    }
+    if colors.len() == 3 {
+        return Ok(colors);
+    } else {
+        return Err(0);
+    }
+}
+
 fn main() {
-    let original_colors = vec![
-        vec_to_rgb![vec![175, 122, 197]],
-        vec_to_rgb![vec![40, 116, 166]],
-    ];
+    let mut original_colors = Vec::<RGB>::new();
+    loop {
+        match get_color() {
+            Ok(color) => original_colors.push(vec_to_rgb![color]),
+            Err(_) => break
+        }
+    }
+    println!("{:?}", original_colors);
 
     let num = 40;
     let colors = calculate_gradient(num, original_colors);
