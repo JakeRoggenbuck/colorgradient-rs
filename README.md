@@ -3,7 +3,8 @@
 
 # Install 
 ```
-cargo install --path .
+git clone https://github.com/JakeRoggenbuck/colorgradient-rs
+cargo install --path colorgradient-rs
 ```
 
 # Test
