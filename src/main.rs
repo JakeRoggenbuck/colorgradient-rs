@@ -163,7 +163,7 @@ fn main() {
     loop {
         match get_color() {
             Ok(color) => original_colors.push(vec_to_rgb![color]),
-            Err(_) => break
+            Err(_) => break,
         }
     }
     println!("{:?}", original_colors);
