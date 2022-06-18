@@ -1,6 +1,12 @@
 # colorgradient-rs
 ![image](https://user-images.githubusercontent.com/35516367/116793337-1716c680-aa7b-11eb-9c1e-2cda170e2118.png)
 
+- Python version [colorgradient](https://github.com/JakeRoggenbuck/colorgradient)
+- Rust version [colorgradient-rs](https://github.com/JakeRoggenbuck/colorgradient-rs)
+- Julia version [colorgradient-julia](https://github.com/JakeRoggenbuck/colorgradient-julia)
+- C version [colorgradient-c](https://github.com/JakeRoggenbuck/colorgradient-c)
+- Go version [colorgradient-c](https://github.com/JakeRoggenbuck/colorgradient-go)
+
 # Install 
 ```
 git clone https://github.com/JakeRoggenbuck/colorgradient-rs
