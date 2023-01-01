@@ -8,6 +8,8 @@
 - Go version [colorgradient-go](https://github.com/JakeRoggenbuck/colorgradient-go)
 - Clojure version [colorgradient-clj](https://github.com/JakeRoggenbuck/colorgradient-clj)
 
+<img width="400" alt="color grad" src="https://user-images.githubusercontent.com/35516367/210163818-5f286e55-9b2a-431c-a397-c1a24a37dbb1.png">
+
 # Install 
 ```
 git clone https://github.com/JakeRoggenbuck/colorgradient-rs
